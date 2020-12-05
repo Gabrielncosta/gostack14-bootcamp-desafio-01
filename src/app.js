@@ -17,15 +17,28 @@ app.get("/repositories", (request, response) => {
 app.post("/repositories", (request, response) => {
   const { title, url, techs } = request.body
 
-  const newRepository = { id: uuid(), title, url, techs, likes: 0 }
+  const repository = { id: uuid(), title, url, techs, likes: 0 }
 
-  repositories.push(newRepository)
+  repositories.push(repository)
 
-  return response.json(newRepository);
+  return response.json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
-  // TODO
+  const { id } = request.params;
+  const { title, url, techs } = request.body
+
+  const foundRepository = repositories.findIndex((repository) => repository.id === id)
+
+  if(!foundRepository) {
+    return response.status(400).json({ error: 'Repository not found.'}); 
+  }
+
+  const repository = { title, url, techs }
+
+  repositories[findIndex] = repository;
+
+  return response.json(foundRepository);
 });
 
 app.delete("/repositories/:id", (request, response) => {
